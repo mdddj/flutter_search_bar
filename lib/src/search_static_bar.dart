@@ -17,7 +17,7 @@ class SearchStaticBar extends StatelessWidget {
   ///搜索框上显示的文案
   String hint;
   ///hero过渡动画的tag
-  String heroTag;
+  String? heroTag;
   ///搜索框的圆角
   double defaultBorderRadius;
   ///外边距
@@ -25,7 +25,7 @@ class SearchStaticBar extends StatelessWidget {
   ///内边距
   EdgeInsets padding;
   ///点击的回调事件
-  Function clickCallBack;
+  Function? clickCallBack;
   ///如果考虑不需要水波纹效果那么就可以设置颜色为透明色
   Color splashColor;
 
@@ -53,7 +53,7 @@ class SearchStaticBar extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 if (clickCallBack != null) {
-                  clickCallBack();
+                  clickCallBack!();
                 }
               },
               splashColor: splashColor,
@@ -74,7 +74,7 @@ class SearchStaticBar extends StatelessWidget {
       return buildContainer(context);
     } else {
       return Hero(
-        tag: heroTag,
+        tag: heroTag!,
         child: buildContainer(context),
       );
     }
@@ -114,8 +114,8 @@ class SearchStaticBar extends StatelessWidget {
 }
 
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
-  final ValueChanged<String> onChanged;
-  final ValueChanged<String> onSearch;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSearch;
   final double horizontalPadding;
   final bool home;
   final String hint;
@@ -126,7 +126,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final bool isShowSearchButton;
 
   const SearchBar({
-    Key key,
+    Key? key,
     this.home = false,
     this.isShowNavTop = false,
     this.onChanged,
@@ -350,7 +350,7 @@ class _SearchBarState extends State<SearchBar> {
     }
 
     if (widget.onChanged != null) {
-      widget.onChanged(text);
+      widget.onChanged!(text);
     }
     setState(() {});
   }
@@ -359,7 +359,7 @@ class _SearchBarState extends State<SearchBar> {
     ///注销焦点
     _focusNode.unfocus();
     if (widget.onSearch != null) {
-      widget.onSearch(text);
+      widget.onSearch!(text);
     }
   }
 

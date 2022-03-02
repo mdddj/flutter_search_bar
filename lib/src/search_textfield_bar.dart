@@ -1,6 +1,4 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,35 +16,35 @@ import 'package:flutter/services.dart';
 ///lib/demo/search_textfield_bar.dart
 class SearchTextFieldBar extends StatefulWidget {
   ///搜索框上显示的文案
-  String hint;
+ final String hint;
   ///hero过渡动画的tag
-  String heroTag;
+ final String? heroTag;
   ///搜索框的圆角
-  double defaultBorderRadius;
-  EdgeInsets margin;
-  EdgeInsets padding;
+ final double defaultBorderRadius;
+ final EdgeInsets margin;
+ final EdgeInsets padding;
   ///如果考虑不需要水波纹效果那么就可以设置颜色为透明色
-  Color splashColor;
+ final Color splashColor;
   ///文本输入框焦点控制
-  FocusNode focusNode;
+ late final FocusNode? focusNode;
   ///文本输入框控制器
-  TextEditingController controller;
+ final TextEditingController? controller;
   ///点击键盘上的回车键的回调
-  Function(String text) onSubmitted;
+ final Function(String text)? onSubmitted;
   ///清楚搜索回调
-  Function clearCallback;
+ final Function? clearCallback;
   ///返回键的回调
-  Function() onBackCallback;
+ final Function()? onBackCallback;
   ///输入文本的长度限制
-  int inputKeyWordsLength;
+ final int inputKeyWordsLength;
   ///输入框文字大小
-  double fontSize;
+ final double fontSize;
   ///是否显示左侧的返回键
-  bool isShowBackButton;
+ final bool isShowBackButton;
   ///搜索框的长度
-  double width;
+ final double? width;
   ///搜索框的高度
-  double height;
+ late final double? height;
 
   SearchTextFieldBar(
       {this.hint = "搜索",
@@ -68,6 +66,9 @@ class SearchTextFieldBar extends StatefulWidget {
     if (this.height == null) {
       this.height = this.defaultBorderRadius * 2;
     }
+    if (this.focusNode == null) {
+      this.focusNode = new FocusNode();
+    }
   }
 
   @override
@@ -82,14 +83,6 @@ class SearchTextFieldBarState extends State<SearchTextFieldBar> {
   bool showClear = false;
   ///文本输入框的默认使用控制器
   TextEditingController defaultTextController= TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    ///创建默认的焦点控制
-    if (widget.focusNode == null) {
-      widget.focusNode = new FocusNode();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +112,7 @@ class SearchTextFieldBarState extends State<SearchTextFieldBar> {
         onPressed: () {
           ///返回事件回调
           if (widget.onBackCallback != null) {
-            widget.onBackCallback();
+            widget.onBackCallback!();
           } else {
             ///直接关闭当前页面
             Navigator.of(context).pop();
@@ -159,7 +152,7 @@ class SearchTextFieldBarState extends State<SearchTextFieldBar> {
   }
 
   ///计算当前 Widget 使用到的宽度
-  double calculateWidth() {
+  double? calculateWidth() {
     ///不同应用场景的配制
     if (widget.width != null) {
       return widget.width;
@@ -250,7 +243,7 @@ class SearchTextFieldBarState extends State<SearchTextFieldBar> {
       ///或者是搜索按钮的回调
       onSubmitted: (text) {
         if (widget.onSubmitted != null) {
-          widget.onSubmitted(text);
+          widget.onSubmitted!(text);
         }
       },
 
@@ -296,10 +289,10 @@ class SearchTextFieldBarState extends State<SearchTextFieldBar> {
           if(widget.controller==null){
             defaultTextController.clear();
           }else{
-            widget.controller.text = "";
+            widget.controller!.text = "";
           }
           if (widget.clearCallback != null) {
-            widget.clearCallback();
+            widget.clearCallback!();
           }
         },
       );
